@@ -15,8 +15,7 @@ public class ManyToManyApp {
         String element = scan.nextLine();
         command = command.strip();
         element = element.strip();
-        System.out.println(command);
-        System.out.println(element);
+
         UserController userController = new UserController();
         userController.map(command,element);
     }
