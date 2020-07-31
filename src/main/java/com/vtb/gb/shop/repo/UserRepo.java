@@ -1,6 +1,7 @@
 package com.vtb.gb.shop.repo;
 
 import com.vtb.gb.shop.domain.Customer;
+import com.vtb.gb.shop.domain.Deal;
 import com.vtb.gb.shop.domain.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -109,8 +110,11 @@ public class UserRepo {
             session.beginTransaction();
             Customer customer = session.get(Customer.class, id_cus);
             Product product = session.get(Product.class, id_prod);
-            customer.getProducts().add(product);
-            product.getCustomers().add(customer);
+            Deal deal = new Deal();
+            deal.setCustomer(customer);
+            deal.setProduct(product);
+            deal.setPrice(product.getPrice());
+            session.save(deal);
             session.getTransaction().commit();
 
         } finally {

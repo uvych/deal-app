@@ -14,23 +14,14 @@ INSERT INTO customers (name) VALUES
 ('Bob'),
 ('Jon');
 
-DROP TABLE IF EXISTS details CASCADE;
-CREATE TABLE details (id bigserial PRIMARY KEY , id_customer bigint, deal_price bigint, FOREIGN KEY (id_customer) REFERENCES customers (id));
-INSERT INTO details (deal_price, id_customer) VALUES
-(100, 1),
-(40000 , 1),
-(4, 3),
-(2, 1),
-(2, 1);
-
 DROP TABLE IF EXISTS deal CASCADE;
-CREATE TABLE deal (customer_id bigint, product_id bigint, deal_id bigint , FOREIGN KEY (customer_id) REFERENCES customers (id), FOREIGN KEY (product_id) REFERENCES product (id), FOREIGN KEY (deal_id) REFERENCES details (id));
-INSERT INTO deal (customer_id, product_id, deal_id) VALUES
-(1, 1 , 1),
-(1, 2, 2),
-(3, 3 , 3),
-(3, 1, 4),
-(2, 1, 5);
-
+CREATE TABLE deal (deal_id  bigserial unique not null,customer_id bigint, product_id bigint , price bigint check ( price > 0), FOREIGN KEY (customer_id) REFERENCES customers (id),
+                 FOREIGN KEY (product_id) REFERENCES product(id));
+INSERT INTO deal (customer_id, product_id, price) VALUES
+(1, 1, 567),
+(1, 2, 1234),
+(3, 3, 666),
+(3, 1, 888),
+(2, 1, 999);
 
 COMMIT;

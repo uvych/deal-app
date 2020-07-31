@@ -4,37 +4,32 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "details")
+@Table(name = "deal")
 public class Deal {
-
-    @Column(name = "deal_price")
-    private Long price;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "deal_id/")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_customer")
-    private Customer person;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @Column(name = "price")
+    private Long price;
 
     public Deal() {
     }
 
-    public Customer getCustomer() {
-        return person;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.person = customer;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
+    public Deal(Long id, Product product, Customer customer, Long price) {
+        this.id = id;
+        this.product = product;
+        this.customer = customer;
         this.price = price;
     }
 
@@ -46,21 +41,51 @@ public class Deal {
         this.id = id;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Deal deal = (Deal) o;
-        return Objects.equals(price, deal.price);
+        return Objects.equals(id, deal.id) &&
+                Objects.equals(product, deal.product) &&
+                Objects.equals(customer, deal.customer) &&
+                Objects.equals(price, deal.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(price);
+        return Objects.hash(id, product, customer, price);
     }
 
     @Override
     public String toString() {
-        return String.format("Deal [price = %d , customer = %s]", price, person.toString());
+        return "Deal{" +
+                "id=" + id +
+                ", price=" + price +
+                '}';
     }
 }
