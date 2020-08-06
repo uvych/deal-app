@@ -26,6 +26,9 @@ public class Product {
     )
     private List<Customer> customers;
 
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Deal> deals;
+
     public Long getId() {
         return id;
     }

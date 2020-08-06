@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,16 @@ public class Customer {
     )
     private List<Product> products;
 
-    @OneToMany(mappedBy = "person")
-    private List<Deal> deal;
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Deal> deals;
+
+    public List<Deal> getDeals() {
+        return deals;
+    }
+
+    public void setDeals(List<Deal> deals) {
+        this.deals = deals;
+    }
 
     public Long getId() {
         return id;
@@ -50,14 +58,6 @@ public class Customer {
         this.products = products;
     }
 
-    public List<Deal> getDeal() {
-        return deal;
-    }
-
-    public void setDeal(List<Deal> deal) {
-        this.deal = deal;
-    }
-
     public Customer() {
     }
 
@@ -78,6 +78,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return String.format("Customer [id = %d, name = %s]", id, name);
+        return String.format("Customer [id = %d, name = %s]", id, name );
     }
 }
